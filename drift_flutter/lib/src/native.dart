@@ -92,7 +92,15 @@ QueryExecutor driftDatabase({
       }
     }
 
-    return NativeDatabase.createBackgroundConnection(await databaseFile());
+    return NativeDatabase.createBackgroundConnection(
+      await databaseFile(),
+      // Windows SqliteException(5): while executing statement, database is locked, database is locked (code 5)
+      // https://github.com/simolus3/drift/issues/2736
+      setup: (rawDb) {
+        rawDb.execute('PRAGMA journal_mode=WAL;');
+        rawDb.execute('PRAGMA busy_timeout = 5000;');
+      },
+    );
   }));
 }
 

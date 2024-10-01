@@ -24,7 +24,6 @@ dependencies:
   sqlite3: ^2.4.3
   path: ^1.8.0
   stack_trace: ^1.11.1
-  web: ^1.0.0
 
 dev_dependencies:
   archive: ^3.3.1
